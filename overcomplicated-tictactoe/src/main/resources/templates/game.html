@@ -43,7 +43,8 @@
             </div>
         </div>
 
-        <h2 style="text-align: center" th:if="${game.isGameFinished}">Nice! You won</h2>
+        <h2 style="text-align: center" th:if="${game.isGameFinished and game.isGameTied == false}">Nice! You won</h2>
+        <h2 style="text-align: center" th:if="${game.isGameFinished and game.isGameTied}">It is a tie</h2>
 
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3">

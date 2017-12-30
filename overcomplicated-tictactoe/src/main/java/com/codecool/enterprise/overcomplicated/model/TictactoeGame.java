@@ -7,6 +7,7 @@ public class TictactoeGame {
 
     private String lastMovement = "";
     public boolean isGameFinished = false;
+    public boolean isGameTied = false;
 
     private String oSign = "fa fa-circle-o";
     private String xSign = "fa fa-times";
@@ -42,9 +43,10 @@ public class TictactoeGame {
     }
 
     public void updateField(int move) {
-        if(checkForWin()) {
+        if(isGameFinished) {
             resetGameMap();
             isGameFinished = false;
+            isGameTied = false;
         } else {
             if (fields.get(move).equals("")) {
                 if (lastMovement.equals(oSign)) {
@@ -55,8 +57,11 @@ public class TictactoeGame {
             }
         }
         changeLastMovement();
-        if(checkForWin()) {
+        if(checkGameOver() || checkForWin()) {
             isGameFinished = true;
+            if(!checkForWin()) {
+                isGameTied = true;
+            }
         }
     }
 
@@ -70,6 +75,10 @@ public class TictactoeGame {
 
     public void setFields(List<String> fields) {
         this.fields = fields;
+    }
+
+    public boolean checkGameOver() {
+        return !fields.contains("");
     }
 
 
@@ -107,6 +116,20 @@ public class TictactoeGame {
     // Check to see if all three values are the same (and not empty) indicating a win.
     private boolean checkRowCol(String field1, String field2, String field3) {
         return ((!field1.equals("")) && (field1.equals(field2)) && (field2.equals(field3)));
+    }
+
+    public String generateTableToAiMove(){
+        StringBuilder resultTable = new StringBuilder();
+        for (String field: fields) {
+            if (field.equals("")) {
+                resultTable.append("-");
+            } else if (field.equals(oSign)) {
+                resultTable.append("O");
+            } else {
+                resultTable.append("X");
+            }
+        }
+        return String.valueOf(resultTable);
     }
 
 }
